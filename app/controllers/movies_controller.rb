@@ -12,6 +12,17 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    
+    #logger.debug("***movies***")
+    #logger.debug(@movies.inspect)
+    #logger.debug("***params***")
+    #logger.debug(params)
+    
+    # sort by column whose id was clicked
+    @sort = params["column_id"]
+    logger.debug("***column_id***")
+    logger.debug(params)
+    # set selected th class to hilite
   end
 
   def new
