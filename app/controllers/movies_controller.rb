@@ -15,7 +15,13 @@ class MoviesController < ApplicationController
     
     # sort by column clicked
     @sort = params["sort"]
-    @movies = Movie.all.order(@sort)
+    
+    # filter by ratings
+    unless params["ratings"].nil?
+      @ratings = params["ratings"].keys
+    end
+
+    @movies = Movie.where(rating: @ratings).order(@sort)
   end
 
   def new
