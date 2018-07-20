@@ -32,32 +32,19 @@ class MoviesController < ApplicationController
     end
 
     # filter by ratings
-    logger.debug("***params['ratings']***")
-    logger.debug(params["ratings"])
-    logger.debug("***session[:ratings]***")
-    logger.debug(session[:ratings])
-
     if !params["ratings"].nil?
       @ratings_filter = session[:ratings] = params["ratings"].keys
-      logger.debug("***set session[:ratings] to params['ratings'].keys***")
-      logger.debug(session[:ratings])
     elsif session[:ratings].nil?
       @ratings_filter = session[:ratings] = @all_ratings
-      logger.debug("***set session[:ratings] to @all_ratings***")
-      logger.debug(session[:ratings])
     else
       params["ratings"] = {}
       session[:ratings].each do |rating|
         params["ratings"][rating] = 1
       end
-      logger.debug("***params['ratings'] set***")
-      logger.debug(params["ratings"])
       flash.keep
       redirect_to movies_path(:sort => session[:sort], :ratings => params[:ratings])
       return
     end
-    logger.debug("***@ratings***")
-    logger.debug(@ratings_filter)
 
     @movies = Movie.where(rating: @ratings_filter).order(@sort)
   end
