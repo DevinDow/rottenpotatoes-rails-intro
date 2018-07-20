@@ -11,6 +11,8 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.all_ratings()
+    
     # sort by column clicked
     @sort = params["sort"]
     @movies = Movie.all.order(@sort)
