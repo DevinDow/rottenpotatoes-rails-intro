@@ -11,13 +11,17 @@ class MoviesController < ApplicationController
   end
 
   def index
+    # @all_ratings needed for View
     @all_ratings = Movie.all_ratings()
     
     # sort by column clicked
     if !params["sort"].nil?
       session[:sort] = params["sort"]
+    elsif !session[:sort].nil?
+      flash.keep
+      redirect_to movies_path(:sort => session[:sort])
     end
-    
+
     # filter by ratings
     if !params["ratings"].nil?
       session[:ratings] = params["ratings"].keys
