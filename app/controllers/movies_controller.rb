@@ -14,16 +14,20 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings()
     
     # sort by column clicked
-    @sort = params["sort"]
+    if !params["sort"].nil?
+      session[:sort] = params["sort"]
+    end
     
     # filter by ratings
-    if params["ratings"].nil?
-      @ratings = @all_ratings
-    else
-      @ratings = params["ratings"].keys
+    if !params["ratings"].nil?
+      session[:ratings] = params["ratings"].keys
+    end
+    
+    if session[:ratings].nil?
+      session[:ratings] = @all_ratings
     end
 
-    @movies = Movie.where(rating: @ratings).order(@sort)
+    @movies = Movie.where(rating: session[:ratings]).order(session[:sort])
   end
 
   def new
