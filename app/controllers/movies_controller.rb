@@ -17,7 +17,9 @@ class MoviesController < ApplicationController
     @sort = params["sort"]
     
     # filter by ratings
-    unless params["ratings"].nil?
+    if params["ratings"].nil?
+      @ratings = @all_ratings
+    else
       @ratings = params["ratings"].keys
     end
 
